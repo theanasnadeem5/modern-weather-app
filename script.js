@@ -2,21 +2,29 @@ const apiKey="YOUR_API_KEY";
 
 async function getWeather(){
 
-let city=document.getElementById(
+const city=
+document.getElementById(
 "cityInput"
 ).value;
 
-let url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+if(!city)return;
 
-let res=await fetch(url);
+try{
 
-let data=await res.json();
+const response=
+await fetch(
+`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+);
 
-showWeather(data);
+const data=
+await response.json();
+
+if(data.cod!="200"){
+
+alert("City not found");
+return;
 
 }
-
-function showWeather(data){
 
 document.getElementById(
 "city"
@@ -25,7 +33,9 @@ document.getElementById(
 document.getElementById(
 "temp"
 ).innerText=
-Math.round(data.main.temp)+"°C";
+Math.round(
+data.main.temp
+)+"°C";
 
 document.getElementById(
 "humidity"
@@ -37,68 +47,74 @@ document.getElementById(
 ).innerText=
 data.wind.speed+" km/h";
 
-document.getElementById(
-"condition"
-).innerText=
+const weather=
 data.weather[0].main;
 
-changeTheme(
-data.weather[0].main
+document.getElementById(
+"condition"
+).innerText=weather;
+
+changeTheme(weather);
+
+}
+catch{
+
+alert(
+"Error loading weather"
 );
 
 }
 
-function changeTheme(type){
-
-let body=document.body;
-
-body.className="";
-
-if(type.includes("Rain")){
-
-body.classList.add(
-"rainy"
-);
-
 }
-else if(type.includes("Clear")){
 
-body.classList.add(
+function changeTheme(weather){
+
+document.body.className="";
+
+if(weather==="Clear"){
+document.body.classList.add(
 "sunny"
 );
 
+document.getElementById(
+"icon"
+).innerText="☀️";
 }
+
+else if(weather==="Rain"){
+
+document.body.classList.add(
+"rainy"
+);
+
+document.getElementById(
+"icon"
+).innerText="🌧️";
+
+}
+
+else if(weather==="Clouds"){
+
+document.body.classList.add(
+"cloudy"
+);
+
+document.getElementById(
+"icon"
+).innerText="☁️";
+
+}
+
 else{
 
-body.classList.add(
+document.body.classList.add(
 "night"
 );
 
-}
+document.getElementById(
+"icon"
+).innerText="🌙";
 
 }
-
-function getLocation(){
-
-navigator.geolocation.getCurrentPosition(
-
-async(position)=>{
-
-let lat=
-position.coords.latitude;
-
-let lon=
-position.coords.longitude;
-
-let url=
-`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-
-let res=await fetch(url);
-
-let data=await res.json();
-
-showWeather(data);
-
-});
 
 }
