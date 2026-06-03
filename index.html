@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animated Weather App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="body">
+
+<div class="container">
+
+<div class="weather-card">
+<h1>Weather App</h1>
+
+<div class="search-box">
+<input id="cityInput" placeholder="Enter city">
+<button onclick="getWeather()">Search</button>
+<button onclick="getLocation()">📍</button>
+</div>
+
+<div id="weatherInfo">
+<h2 id="city">City</h2>
+<div id="temp">--°C</div>
+
+<div class="details">
+<p>Humidity: <span id="humidity"></span></p>
+<p>Wind: <span id="wind"></span></p>
+<p>Condition: <span id="condition"></span></p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="rain"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
